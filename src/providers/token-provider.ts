@@ -551,7 +551,7 @@ export const USDT_KAVA = new Token(
   '0x919C1c267BC06a7039e03fcc2eF738525769109c',
   6,
   'USDt',
-  'USDT'
+  'TetherUSDt'
 );
 
 export const axlUSDC_KAVA = new Token(

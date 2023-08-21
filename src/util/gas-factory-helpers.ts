@@ -9,6 +9,7 @@ import {
 } from '@kinetix/sdk-core';
 import { Pair } from '@kinetix/v2-sdk/dist/entities';
 import { FeeAmount, Pool } from '@kinetix/v3-sdk';
+import JSBI from 'jsbi';
 import _ from 'lodash';
 
 import { IV2PoolProvider } from '../providers';
@@ -28,7 +29,6 @@ import {
 } from '../routers';
 import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
 
-import JSBI from 'jsbi';
 import { buildTrade } from './methodParameters';
 
 export async function getV2NativePool(
