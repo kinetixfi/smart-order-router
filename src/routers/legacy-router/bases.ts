@@ -2,17 +2,23 @@
 import { ChainId, Token } from '@kinetix/sdk-core';
 
 import {
+  ATOM_KAVA,
+  axlETH_KAVA,
+  axlUSDC_KAVA,
+  axlWBTC_KAVA,
   BTC_BNB,
   BUSD_BNB,
   DAI_AVAX,
   DAI_BNB,
   DAI_MAINNET,
   ITokenProvider,
+  MIM_KAVA,
   USDC_AVAX,
   USDC_BASE,
   USDC_BNB,
   USDC_MAINNET,
   USDT_BNB,
+  USDT_KAVA,
   USDT_MAINNET,
   WBTC_MAINNET,
   WMATIC_POLYGON,
@@ -66,6 +72,15 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
     ],
     [ChainId.BASE]: [WRAPPED_NATIVE_CURRENCY[ChainId.BASE]!, USDC_BASE],
     [ChainId.BASE_GOERLI]: [WRAPPED_NATIVE_CURRENCY[ChainId.BASE_GOERLI]!],
+    [ChainId.KAVA]: [
+      WRAPPED_NATIVE_CURRENCY[ChainId.KAVA],
+      axlETH_KAVA,
+      axlUSDC_KAVA,
+      axlWBTC_KAVA,
+      ATOM_KAVA,
+      MIM_KAVA,
+      USDT_KAVA,
+    ],
   };
 };
 

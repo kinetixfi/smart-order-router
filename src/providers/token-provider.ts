@@ -538,6 +538,62 @@ export const WBTC_MOONBEAM = new Token(
   'Wrapped BTC bridged using Multichain'
 );
 
+export const WKAVA_KAVA = new Token(
+  ChainId.KAVA,
+  '0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b',
+  18,
+  'WKAVA',
+  'Wrapped KAVA'
+);
+
+export const USDT_KAVA = new Token(
+  ChainId.KAVA,
+  '0x919C1c267BC06a7039e03fcc2eF738525769109c',
+  6,
+  'USDt',
+  'USDT'
+);
+
+export const axlUSDC_KAVA = new Token(
+  ChainId.KAVA,
+  '0xEB466342C4d449BC9f53A865D5Cb90586f405215',
+  6,
+  'axlUSDC',
+  'Axelar Wrapped USDC'
+);
+
+export const axlWBTC_KAVA = new Token(
+  ChainId.KAVA,
+  '0x1a35EE4640b0A3B87705B0A4B45D227Ba60Ca2ad',
+  8,
+  'axlUSDC',
+  'Axelar Wrapped Bitcoin'
+);
+
+export const axlETH_KAVA = new Token(
+  ChainId.KAVA,
+  '0xb829b68f57CC546dA7E5806A929e53bE32a4625D',
+  18,
+  'axlETH',
+  'Axelar Wrapped Ethereum'
+);
+
+export const ATOM_KAVA = new Token(
+  ChainId.KAVA,
+  '0x15932E26f5BD4923d46a2b205191C4b5d5f43FE3',
+  6,
+  'ATOM',
+  'ATOM'
+);
+
+export const MIM_KAVA = new Token(
+  ChainId.KAVA,
+  '0x471EE749bA270eb4c1165B5AD95E614947f6fCeb',
+  18,
+  'MIM',
+  'Magic Internet Money'
+);
+
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,
@@ -758,6 +814,8 @@ export const USDT_ON = (chainId: ChainId): Token => {
       return USDT_ARBITRUM;
     case ChainId.BNB:
       return USDT_BNB;
+    case ChainId.KAVA:
+      return USDT_KAVA;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }
@@ -795,6 +853,8 @@ export const USDC_ON = (chainId: ChainId): Token => {
       return USDC_BASE;
     case ChainId.BASE_GOERLI:
       return USDC_BASE_GOERLI;
+    case ChainId.KAVA:
+      return axlUSDC_KAVA;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }

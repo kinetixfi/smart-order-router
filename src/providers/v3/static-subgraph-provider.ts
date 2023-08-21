@@ -10,6 +10,7 @@ import { log } from '../../util/log';
 import { ProviderConfig } from '../provider';
 import {
   ARB_ARBITRUM,
+  axlUSDC_KAVA,
   BTC_BNB,
   BUSD_BNB,
   CELO,
@@ -47,6 +48,7 @@ import {
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_GOERLI,
+  USDT_KAVA,
   USDT_MAINNET,
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
@@ -154,6 +156,11 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ],
   [ChainId.BASE_GOERLI]: [WRAPPED_NATIVE_CURRENCY[ChainId.BASE_GOERLI]],
   [ChainId.BASE]: [WRAPPED_NATIVE_CURRENCY[ChainId.BASE], USDC_BASE],
+  [ChainId.KAVA]: [
+    WRAPPED_NATIVE_CURRENCY[ChainId.KAVA],
+    axlUSDC_KAVA,
+    USDT_KAVA,
+  ],
 };
 
 /**
