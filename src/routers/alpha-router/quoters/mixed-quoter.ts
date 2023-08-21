@@ -1,4 +1,4 @@
-import { ChainId, Currency, Token, TradeType } from '@uniswap/sdk-core';
+import { ChainId, Currency, Token, TradeType } from '@kinetix/sdk-core';
 import _ from 'lodash';
 
 import {
@@ -10,14 +10,23 @@ import {
   IV2SubgraphProvider,
   IV3PoolProvider,
   IV3SubgraphProvider,
-  TokenValidationResult
+  TokenValidationResult,
 } from '../../../providers';
-import { CurrencyAmount, log, metric, MetricLoggerUnit, routeToString } from '../../../util';
+import {
+  CurrencyAmount,
+  log,
+  metric,
+  MetricLoggerUnit,
+  routeToString,
+} from '../../../util';
 import { MixedRoute } from '../../router';
 import { AlphaRouterConfig } from '../alpha-router';
 import { MixedRouteWithValidQuote } from '../entities';
 import { computeAllMixedRoutes } from '../functions/compute-all-routes';
-import { CandidatePoolsBySelectionCriteria, getMixedRouteCandidatePools } from '../functions/get-candidate-pools';
+import {
+  CandidatePoolsBySelectionCriteria,
+  getMixedRouteCandidatePools,
+} from '../functions/get-candidate-pools';
 import { IGasModel } from '../gas-models';
 
 import { BaseQuoter } from './base-quoter';
@@ -42,7 +51,12 @@ export class MixedQuoter extends BaseQuoter<MixedRoute> {
     blockedTokenListProvider?: ITokenListProvider,
     tokenValidatorProvider?: ITokenValidatorProvider
   ) {
-    super(tokenProvider, chainId, blockedTokenListProvider, tokenValidatorProvider);
+    super(
+      tokenProvider,
+      chainId,
+      blockedTokenListProvider,
+      tokenValidatorProvider
+    );
     this.v3SubgraphProvider = v3SubgraphProvider;
     this.v3PoolProvider = v3PoolProvider;
     this.v2SubgraphProvider = v2SubgraphProvider;
@@ -127,7 +141,7 @@ export class MixedQuoter extends BaseQuoter<MixedRoute> {
 
     return {
       routes,
-      candidatePools
+      candidatePools,
     };
   }
 
@@ -143,7 +157,9 @@ export class MixedQuoter extends BaseQuoter<MixedRoute> {
   ): Promise<GetQuotesResult> {
     log.info('Starting to get mixed quotes');
     if (gasModel === undefined) {
-      throw new Error('GasModel for MixedRouteWithValidQuote is required to getQuotes');
+      throw new Error(
+        'GasModel for MixedRouteWithValidQuote is required to getQuotes'
+      );
     }
     if (routes.length == 0) {
       return { routesWithValidQuotes: [], candidatePools };
@@ -230,8 +246,7 @@ export class MixedQuoter extends BaseQuoter<MixedRoute> {
 
     return {
       routesWithValidQuotes,
-      candidatePools
+      candidatePools,
     };
   }
-
 }

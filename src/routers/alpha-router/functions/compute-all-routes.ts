@@ -1,6 +1,6 @@
-import { Token } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
-import { Pool } from '@uniswap/v3-sdk';
+import { Token } from '@kinetix/sdk-core';
+import { Pair } from '@kinetix/v2-sdk';
+import { Pool } from '@kinetix/v3-sdk';
 
 import { log } from '../../../util/log';
 import { poolToString, routeToString } from '../../../util/routes';

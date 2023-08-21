@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Token } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
+import { ChainId, Token } from '@kinetix/sdk-core';
+import { Pair } from '@kinetix/v2-sdk';
 import _ from 'lodash';
 
 import { IV2PoolProvider } from '../../../../providers/v2/pool-provider';

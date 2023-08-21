@@ -1,7 +1,11 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, TradeType } from '@uniswap/sdk-core';
+import { Protocol } from '@kinetix/router-sdk';
+import { ChainId, TradeType } from '@kinetix/sdk-core';
 import { V3RouteWithValidQuote } from '../../../../../../build/main';
-import { CachedRoutes, DAI_MAINNET as DAI, USDC_MAINNET as USDC } from '../../../../../../src';
+import {
+  CachedRoutes,
+  DAI_MAINNET as DAI,
+  USDC_MAINNET as USDC,
+} from '../../../../../../src';
 import { getV3RouteWithValidQuoteStub } from '../test-util/mocked-dependencies';
 
 describe('CachedRoutes', () => {
@@ -91,19 +95,33 @@ describe('CachedRoutes', () => {
           });
 
           it('returns true when blockNumber is still the same as the one in the cached routes', () => {
-            expect(cachedRoutes.notExpired(blockNumber, optimistic)).toBeTruthy();
+            expect(
+              cachedRoutes.notExpired(blockNumber, optimistic)
+            ).toBeTruthy();
           });
 
           it('returns true when blockNumber has advanced from the one in the cached routes less than BTL', () => {
-            expect(cachedRoutes.notExpired(blockNumber + 1, optimistic)).toBeTruthy();
+            expect(
+              cachedRoutes.notExpired(blockNumber + 1, optimistic)
+            ).toBeTruthy();
           });
 
           it('returns true when blockNumber has advanced as many as blocksToLive number of blocks', () => {
-            expect(cachedRoutes.notExpired(blockNumber + cachedRoutes.blocksToLive, optimistic)).toBeTruthy();
+            expect(
+              cachedRoutes.notExpired(
+                blockNumber + cachedRoutes.blocksToLive,
+                optimistic
+              )
+            ).toBeTruthy();
           });
 
           it('returns false when blockNumber has advanced one more than BTL', () => {
-            expect(cachedRoutes.notExpired(blockNumber + cachedRoutes.blocksToLive + 1, optimistic)).toBeFalsy();
+            expect(
+              cachedRoutes.notExpired(
+                blockNumber + cachedRoutes.blocksToLive + 1,
+                optimistic
+              )
+            ).toBeFalsy();
           });
         });
 
@@ -116,19 +134,33 @@ describe('CachedRoutes', () => {
           });
 
           it('returns true when blockNumber is still the same as the one in the cached routes', () => {
-            expect(cachedRoutes.notExpired(blockNumber, optimistic)).toBeTruthy();
+            expect(
+              cachedRoutes.notExpired(blockNumber, optimistic)
+            ).toBeTruthy();
           });
 
           it('returns false when blockNumber has advanced from the one in the cached routes less than BTL', () => {
-            expect(cachedRoutes.notExpired(blockNumber + 1, optimistic)).toBeFalsy();
+            expect(
+              cachedRoutes.notExpired(blockNumber + 1, optimistic)
+            ).toBeFalsy();
           });
 
           it('returns false when blockNumber has advanced as many as blocksToLive number of blocks', () => {
-            expect(cachedRoutes.notExpired(blockNumber + cachedRoutes.blocksToLive, optimistic)).toBeFalsy();
+            expect(
+              cachedRoutes.notExpired(
+                blockNumber + cachedRoutes.blocksToLive,
+                optimistic
+              )
+            ).toBeFalsy();
           });
 
           it('returns false when blockNumber has advanced one more than BTL', () => {
-            expect(cachedRoutes.notExpired(blockNumber + cachedRoutes.blocksToLive + 1, optimistic)).toBeFalsy();
+            expect(
+              cachedRoutes.notExpired(
+                blockNumber + cachedRoutes.blocksToLive + 1,
+                optimistic
+              )
+            ).toBeFalsy();
           });
         });
       });

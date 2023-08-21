@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@kinetix/sdk-core';
 import { AAVE_MAINNET, LIDO_MAINNET } from '../../../../providers';
 
 import { V3Route } from '../../../router';

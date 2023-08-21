@@ -1,5 +1,11 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { DAI_MAINNET, MixedRoute, USDC_MAINNET, V2Route, V3Route } from '../../../../../../build/main';
+import { Protocol } from '@kinetix/router-sdk';
+import {
+  DAI_MAINNET,
+  MixedRoute,
+  USDC_MAINNET,
+  V2Route,
+  V3Route,
+} from '../../../../../../build/main';
 import { CachedRoute } from '../../../../../../src';
 import { USDC_DAI, USDC_DAI_MEDIUM } from '../../../../../test-util/mock-data';
 
@@ -27,7 +33,11 @@ describe('CachedRoute', () => {
     });
 
     it('is correctly MIXED when using MixedRoute', () => {
-      const route = new MixedRoute([USDC_DAI_MEDIUM], USDC_MAINNET, DAI_MAINNET);
+      const route = new MixedRoute(
+        [USDC_DAI_MEDIUM],
+        USDC_MAINNET,
+        DAI_MAINNET
+      );
       const cachedRoute = new CachedRoute({ route: route, percent: 100 });
 
       expect(cachedRoute.protocol).toEqual(Protocol.MIXED);

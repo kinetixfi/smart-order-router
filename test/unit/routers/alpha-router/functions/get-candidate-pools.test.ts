@@ -1,5 +1,5 @@
-import { ChainId, Token, TradeType } from '@uniswap/sdk-core';
-import { encodeSqrtRatioX96, FeeAmount, Pool } from '@uniswap/v3-sdk';
+import { ChainId, Token, TradeType } from '@kinetix/sdk-core';
+import { encodeSqrtRatioX96, FeeAmount, Pool } from '@kinetix/v3-sdk';
 import _ from 'lodash';
 import sinon from 'sinon';
 import {
@@ -112,10 +112,13 @@ describe('get candidate pools', () => {
     });
 
     expect(
-      mockV3PoolProvider.getPools.calledWithExactly([
-        [USDC, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOW],
-        [WRAPPED_NATIVE_CURRENCY[1]!, USDT, FeeAmount.LOW],
-      ], { blockNumber: undefined })
+      mockV3PoolProvider.getPools.calledWithExactly(
+        [
+          [USDC, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOW],
+          [WRAPPED_NATIVE_CURRENCY[1]!, USDT, FeeAmount.LOW],
+        ],
+        { blockNumber: undefined }
+      )
     ).toBeTruthy();
   });
 
@@ -139,10 +142,13 @@ describe('get candidate pools', () => {
     });
 
     expect(
-      mockV3PoolProvider.getPools.calledWithExactly([
-        [DAI, USDC, FeeAmount.LOW],
-        [DAI, USDC, FeeAmount.MEDIUM],
-      ], { blockNumber: undefined })
+      mockV3PoolProvider.getPools.calledWithExactly(
+        [
+          [DAI, USDC, FeeAmount.LOW],
+          [DAI, USDC, FeeAmount.MEDIUM],
+        ],
+        { blockNumber: undefined }
+      )
     ).toBeTruthy();
   });
 
@@ -166,10 +172,13 @@ describe('get candidate pools', () => {
     });
 
     expect(
-      mockV3PoolProvider.getPools.calledWithExactly([
-        [USDC, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOW],
-        [DAI, USDC, FeeAmount.LOW],
-      ], { blockNumber: undefined })
+      mockV3PoolProvider.getPools.calledWithExactly(
+        [
+          [USDC, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOW],
+          [DAI, USDC, FeeAmount.LOW],
+        ],
+        { blockNumber: undefined }
+      )
     ).toBeTruthy();
   });
 
@@ -221,12 +230,15 @@ describe('get candidate pools', () => {
     });
 
     expect(
-      mockV3PoolProvider.getPools.calledWithExactly([
-        [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.HIGH],
-        [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.MEDIUM],
-        [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOW],
-        [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOWEST],
-      ], { blockNumber: undefined })
+      mockV3PoolProvider.getPools.calledWithExactly(
+        [
+          [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.HIGH],
+          [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.MEDIUM],
+          [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOW],
+          [DAI, WRAPPED_NATIVE_CURRENCY[1]!, FeeAmount.LOWEST],
+        ],
+        { blockNumber: undefined }
+      )
     ).toBeTruthy();
   });
 });

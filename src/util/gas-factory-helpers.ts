@@ -1,14 +1,14 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Protocol } from '@uniswap/router-sdk';
+import { Protocol } from '@kinetix/router-sdk';
 import {
   ChainId,
   Currency,
   CurrencyAmount,
   Token,
   TradeType,
-} from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk/dist/entities';
-import { FeeAmount, Pool } from '@uniswap/v3-sdk';
+} from '@kinetix/sdk-core';
+import { Pair } from '@kinetix/v2-sdk/dist/entities';
+import { FeeAmount, Pool } from '@kinetix/v3-sdk';
 import _ from 'lodash';
 
 import { IV2PoolProvider } from '../providers';

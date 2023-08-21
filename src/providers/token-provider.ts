@@ -1,7 +1,7 @@
 import { Interface } from '@ethersproject/abi';
 import { BigNumber } from '@ethersproject/bignumber';
 import { parseBytes32String } from '@ethersproject/strings';
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@kinetix/sdk-core';
 import _ from 'lodash';
 
 import { IERC20Metadata__factory } from '../types/v3/factories/IERC20Metadata__factory';
@@ -469,16 +469,16 @@ export const USDC_BASE = new Token(
   6,
   'USDbC',
   'USD Base Coin'
-)
+);
 
-// Base Goerli Tokens 
+// Base Goerli Tokens
 export const USDC_BASE_GOERLI = new Token(
   ChainId.BASE_GOERLI,
   '0x853154e2A5604E5C74a2546E2871Ad44932eB92C',
   6,
   'USDbC',
   'USD Base Coin'
-)
+);
 
 // Gnosis Tokens
 export const USDC_ETHEREUM_GNOSIS = new Token(

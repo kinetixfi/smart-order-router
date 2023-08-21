@@ -1,5 +1,5 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { Token } from '@uniswap/sdk-core';
+import { Protocol } from '@kinetix/router-sdk';
+import { Token } from '@kinetix/sdk-core';
 
 import { MixedRoute, V2Route, V3Route } from '../../../../routers';
 

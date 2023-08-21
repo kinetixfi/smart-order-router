@@ -1,7 +1,7 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { Percent } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
-import { Pool } from '@uniswap/v3-sdk';
+import { Protocol } from '@kinetix/router-sdk';
+import { Percent } from '@kinetix/sdk-core';
+import { Pair } from '@kinetix/v2-sdk';
+import { Pool } from '@kinetix/v3-sdk';
 import _ from 'lodash';
 
 import { RouteWithValidQuote } from '../routers/alpha-router';

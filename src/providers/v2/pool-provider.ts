@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Token } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
+import { ChainId, Token } from '@kinetix/sdk-core';
+import { Pair } from '@kinetix/v2-sdk';
 import retry, { Options as RetryOptions } from 'async-retry';
 import _ from 'lodash';
 
@@ -107,7 +107,7 @@ export class V2PoolProvider implements IV2PoolProvider {
       `getPools called with ${tokenPairs.length} token pairs. Deduped down to ${poolAddressSet.size}`
     );
 
-    metric.putMetric('V2_RPC_POOL_RPC_CALL', 1, MetricLoggerUnit.None)
+    metric.putMetric('V2_RPC_POOL_RPC_CALL', 1, MetricLoggerUnit.None);
 
     const reservesResults = await this.getPoolsData<IReserves>(
       sortedPoolAddresses,

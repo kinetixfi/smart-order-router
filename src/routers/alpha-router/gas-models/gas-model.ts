@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Token } from '@uniswap/sdk-core';
-import { Pool } from '@uniswap/v3-sdk';
+import { ChainId, Token } from '@kinetix/sdk-core';
+import { Pool } from '@kinetix/v3-sdk';
 
 import { ProviderConfig } from '../../../providers/provider';
 import {
@@ -37,7 +37,11 @@ import {
   WBTC_GOERLI,
 } from '../../../providers/token-provider';
 import { IV2PoolProvider } from '../../../providers/v2/pool-provider';
-import { ArbitrumGasData, IL2GasDataProvider, OptimismGasData, } from '../../../providers/v3/gas-data-provider';
+import {
+  ArbitrumGasData,
+  IL2GasDataProvider,
+  OptimismGasData,
+} from '../../../providers/v3/gas-data-provider';
 import { CurrencyAmount } from '../../../util/amounts';
 import {
   MixedRouteWithValidQuote,
@@ -46,8 +50,7 @@ import {
   V3RouteWithValidQuote,
 } from '../entities/route-with-valid-quote';
 
-
-// When adding new usd gas tokens, ensure the tokens are ordered 
+// When adding new usd gas tokens, ensure the tokens are ordered
 // from tokens with highest decimals to lowest decimals. For example,
 // DAI_AVAX has 18 decimals and comes before USDC_AVAX which has 6 decimals.
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
@@ -100,10 +103,10 @@ export type BuildV2GasModelFactoryType = {
 };
 
 export type LiquidityCalculationPools = {
-  usdPool: Pool
-  nativeQuoteTokenV3Pool: Pool | null
-  nativeAmountTokenV3Pool: Pool | null
-}
+  usdPool: Pool;
+  nativeQuoteTokenV3Pool: Pool | null;
+  nativeAmountTokenV3Pool: Pool | null;
+};
 
 /**
  * Contains functions for generating gas estimates for given routes.

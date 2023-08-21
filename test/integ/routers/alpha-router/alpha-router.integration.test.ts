@@ -4,15 +4,23 @@
 
 import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
 import { AllowanceTransfer, PermitSingle } from '@uniswap/permit2-sdk';
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, Currency, CurrencyAmount, Ether, Percent, Token, TradeType, } from '@uniswap/sdk-core';
+import { Protocol } from '@kinetix/router-sdk';
+import {
+  ChainId,
+  Currency,
+  CurrencyAmount,
+  Ether,
+  Percent,
+  Token,
+  TradeType,
+} from '@kinetix/sdk-core';
 import {
   PERMIT2_ADDRESS,
   UNIVERSAL_ROUTER_ADDRESS as UNIVERSAL_ROUTER_ADDRESS_BY_CHAIN,
-} from '@uniswap/universal-router-sdk';
-import { Permit2Permit } from '@uniswap/universal-router-sdk/dist/utils/inputTokens';
-import { Pair } from '@uniswap/v2-sdk';
-import { encodeSqrtRatioX96, FeeAmount, Pool } from '@uniswap/v3-sdk';
+} from '@kinetix/universal-router-sdk';
+import { Permit2Permit } from '@kinetix/universal-router-sdk/dist/utils/inputTokens';
+import { Pair } from '@kinetix/v2-sdk';
+import { encodeSqrtRatioX96, FeeAmount, Pool } from '@kinetix/v3-sdk';
 import bunyan from 'bunyan';
 import { BigNumber, providers, Wallet } from 'ethers';
 import { parseEther } from 'ethers/lib/utils';
@@ -601,7 +609,6 @@ describe('alpha router integration', () => {
             getQuoteToken(tokenIn, tokenOut, tradeType),
             tradeType,
             {
-
               type: SwapType.UNIVERSAL_ROUTER,
               recipient: alice._address,
               slippageTolerance: SLIPPAGE,
@@ -2598,7 +2605,7 @@ describe('quote for other networks', () => {
       const erc1 = TEST_ERC20_1[chain]();
       const erc2 = TEST_ERC20_2[chain]();
 
-      describe(`${ID_TO_NETWORK_NAME(chain)} ${tradeType} 2xx`, function() {
+      describe(`${ID_TO_NETWORK_NAME(chain)} ${tradeType} 2xx`, function () {
         const wrappedNative = WNATIVE_ON(chain);
 
         let alphaRouter: AlphaRouter;
@@ -2652,7 +2659,7 @@ describe('quote for other networks', () => {
           });
         });
 
-        describe(`Swap`, function() {
+        describe(`Swap`, function () {
           it(`${wrappedNative.symbol} -> erc20`, async () => {
             const tokenIn = wrappedNative;
             const tokenOut = erc1;
@@ -2707,7 +2714,8 @@ describe('quote for other networks', () => {
             const tokenIn = nativeOnChain(chain);
             // TODO ROUTE-64: Remove this once smart-order-router supports ETH native currency on BASE
             // see https://uniswapteam.slack.com/archives/C021SU4PMR7/p1691593679108459?thread_ts=1691532336.742419&cid=C021SU4PMR7
-            const tokenOut = chain == ChainId.BASE ? USDC_ON(ChainId.BASE) : erc2
+            const tokenOut =
+              chain == ChainId.BASE ? USDC_ON(ChainId.BASE) : erc2;
 
             // Celo currently has low liquidity and will not be able to find route for
             // large input amounts
@@ -2718,8 +2726,8 @@ describe('quote for other networks', () => {
                   ? parseAmount('10', tokenIn)
                   : parseAmount('10', tokenOut)
                 : tradeType == TradeType.EXACT_INPUT
-                  ? parseAmount('1', tokenIn)
-                  : parseAmount('1', tokenOut);
+                ? parseAmount('1', tokenIn)
+                : parseAmount('1', tokenOut);
 
             const swap = await alphaRouter.route(
               amount,
@@ -2818,7 +2826,7 @@ describe('quote for other networks', () => {
         });
 
         if (isTenderlyEnvironmentSet()) {
-          describe(`Simulate + Swap`, function() {
+          describe(`Simulate + Swap`, function () {
             // Tenderly does not support Celo
             if ([ChainId.CELO, ChainId.CELO_ALFAJORES].includes(chain)) {
               return;
@@ -2835,19 +2843,19 @@ describe('quote for other networks', () => {
               const swapOptions: SwapOptions =
                 chain == ChainId.GOERLI
                   ? {
-                    type: SwapType.SWAP_ROUTER_02,
-                    recipient: WHALES(tokenIn),
-                    slippageTolerance: SLIPPAGE,
-                    deadline: parseDeadline(360),
-                    simulate: { fromAddress: WHALES(tokenIn) },
-                  }
+                      type: SwapType.SWAP_ROUTER_02,
+                      recipient: WHALES(tokenIn),
+                      slippageTolerance: SLIPPAGE,
+                      deadline: parseDeadline(360),
+                      simulate: { fromAddress: WHALES(tokenIn) },
+                    }
                   : {
-                    type: SwapType.UNIVERSAL_ROUTER,
-                    recipient: WHALES(tokenIn),
-                    slippageTolerance: SLIPPAGE,
-                    deadlineOrPreviousBlockhash: parseDeadline(360),
-                    simulate: { fromAddress: WHALES(tokenIn) },
-                  };
+                      type: SwapType.UNIVERSAL_ROUTER,
+                      recipient: WHALES(tokenIn),
+                      slippageTolerance: SLIPPAGE,
+                      deadlineOrPreviousBlockhash: parseDeadline(360),
+                      simulate: { fromAddress: WHALES(tokenIn) },
+                    };
 
               const swap = await alphaRouter.route(
                 amount,
@@ -2890,19 +2898,19 @@ describe('quote for other networks', () => {
               const swapOptions: SwapOptions =
                 chain == ChainId.GOERLI
                   ? {
-                    type: SwapType.SWAP_ROUTER_02,
-                    recipient: WHALES(tokenIn),
-                    slippageTolerance: SLIPPAGE,
-                    deadline: parseDeadline(360),
-                    simulate: { fromAddress: WHALES(tokenIn) },
-                  }
+                      type: SwapType.SWAP_ROUTER_02,
+                      recipient: WHALES(tokenIn),
+                      slippageTolerance: SLIPPAGE,
+                      deadline: parseDeadline(360),
+                      simulate: { fromAddress: WHALES(tokenIn) },
+                    }
                   : {
-                    type: SwapType.UNIVERSAL_ROUTER,
-                    recipient: WHALES(tokenIn),
-                    slippageTolerance: SLIPPAGE,
-                    deadlineOrPreviousBlockhash: parseDeadline(360),
-                    simulate: { fromAddress: WHALES(tokenIn) },
-                  };
+                      type: SwapType.UNIVERSAL_ROUTER,
+                      recipient: WHALES(tokenIn),
+                      slippageTolerance: SLIPPAGE,
+                      deadlineOrPreviousBlockhash: parseDeadline(360),
+                      simulate: { fromAddress: WHALES(tokenIn) },
+                    };
 
               const swap = await alphaRouter.route(
                 amount,
@@ -2945,19 +2953,19 @@ describe('quote for other networks', () => {
               const swapOptions: SwapOptions =
                 chain == ChainId.GOERLI
                   ? {
-                    type: SwapType.SWAP_ROUTER_02,
-                    recipient: WHALES(tokenIn),
-                    slippageTolerance: SLIPPAGE,
-                    deadline: parseDeadline(360),
-                    simulate: { fromAddress: WHALES(tokenIn) },
-                  }
+                      type: SwapType.SWAP_ROUTER_02,
+                      recipient: WHALES(tokenIn),
+                      slippageTolerance: SLIPPAGE,
+                      deadline: parseDeadline(360),
+                      simulate: { fromAddress: WHALES(tokenIn) },
+                    }
                   : {
-                    type: SwapType.UNIVERSAL_ROUTER,
-                    recipient: WHALES(tokenIn),
-                    slippageTolerance: SLIPPAGE,
-                    deadlineOrPreviousBlockhash: parseDeadline(360),
-                    simulate: { fromAddress: WHALES(tokenIn) },
-                  };
+                      type: SwapType.UNIVERSAL_ROUTER,
+                      recipient: WHALES(tokenIn),
+                      slippageTolerance: SLIPPAGE,
+                      deadlineOrPreviousBlockhash: parseDeadline(360),
+                      simulate: { fromAddress: WHALES(tokenIn) },
+                    };
 
               const swap = await alphaRouter.route(
                 amount,

@@ -1,17 +1,15 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { partitionMixedRouteByProtocol } from '@uniswap/router-sdk';
-import { ChainId } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
-import { Pool } from '@uniswap/v3-sdk';
+import { partitionMixedRouteByProtocol } from '@kinetix/router-sdk';
+import { ChainId } from '@kinetix/sdk-core';
+import { Pair } from '@kinetix/v2-sdk';
+import { Pool } from '@kinetix/v3-sdk';
 import JSBI from 'jsbi';
 import _ from 'lodash';
 
 import { WRAPPED_NATIVE_CURRENCY } from '../../../..';
 import { log } from '../../../../util';
 import { CurrencyAmount } from '../../../../util/amounts';
-import {
-  getV2NativePool,
-} from '../../../../util/gas-factory-helpers';
+import { getV2NativePool } from '../../../../util/gas-factory-helpers';
 import { MixedRouteWithValidQuote } from '../../entities/route-with-valid-quote';
 import {
   BuildOnChainGasModelFactoryType,
@@ -61,7 +59,7 @@ export class MixedRouteHeuristicGasModelFactory extends IOnChainGasModelFactory 
   }: BuildOnChainGasModelFactoryType): Promise<
     IGasModel<MixedRouteWithValidQuote>
   > {
-    const usdPool: Pool = pools.usdPool
+    const usdPool: Pool = pools.usdPool;
 
     // If our quote token is WETH, we don't need to convert our gas use to be in terms
     // of the quote token in order to produce a gas adjusted amount.
@@ -105,7 +103,7 @@ export class MixedRouteHeuristicGasModelFactory extends IOnChainGasModelFactory 
 
     // If the quote token is not in the native currency, we convert the gas cost to be in terms of the quote token.
     // We do this by getting the highest liquidity <quoteToken>/<nativeCurrency> pool. eg. <quoteToken>/ETH pool.
-    const nativeV3Pool: Pool | null = pools.nativeQuoteTokenV3Pool
+    const nativeV3Pool: Pool | null = pools.nativeQuoteTokenV3Pool;
 
     let nativeV2Pool: Pair | null;
     if (V2poolProvider) {
