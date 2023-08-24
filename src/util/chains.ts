@@ -9,23 +9,27 @@ import {
 // WIP: Gnosis, Moonbeam
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
-  ChainId.OPTIMISM,
-  ChainId.OPTIMISM_GOERLI,
-  ChainId.ARBITRUM_ONE,
-  ChainId.ARBITRUM_GOERLI,
-  ChainId.POLYGON,
-  ChainId.POLYGON_MUMBAI,
-  ChainId.GOERLI,
-  ChainId.SEPOLIA,
-  ChainId.CELO_ALFAJORES,
-  ChainId.CELO,
-  ChainId.BNB,
-  ChainId.AVALANCHE,
-  ChainId.BASE,
-  // Gnosis and Moonbeam don't yet have contracts deployed yet
+  // ChainId.OPTIMISM,
+  // ChainId.OPTIMISM_GOERLI,
+  // ChainId.ARBITRUM_ONE,
+  // ChainId.ARBITRUM_GOERLI,
+  // ChainId.POLYGON,
+  // ChainId.POLYGON_MUMBAI,
+  // ChainId.GOERLI,
+  // ChainId.SEPOLIA,
+  // ChainId.CELO_ALFAJORES,
+  // ChainId.CELO,
+  // ChainId.BNB,
+  // ChainId.AVALANCHE,
+  // ChainId.BASE,
+  ChainId.KAVA,
 ];
 
-export const V2_SUPPORTED = [ChainId.MAINNET, ChainId.GOERLI, ChainId.SEPOLIA];
+export const V2_SUPPORTED = [
+  ChainId.MAINNET,
+  // ChainId.GOERLI,
+  // ChainId.SEPOLIA
+];
 
 export const HAS_L1_FEE = [
   ChainId.OPTIMISM,
@@ -81,6 +85,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.BASE;
     case 84531:
       return ChainId.BASE_GOERLI;
+    case 2222:
+      return ChainId.KAVA;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -104,6 +110,7 @@ export enum ChainName {
   AVALANCHE = 'avalanche-mainnet',
   BASE = 'base-mainnet',
   BASE_GOERLI = 'base-goerli',
+  KAVA = 'kava',
 }
 
 export enum NativeCurrencyName {
@@ -115,6 +122,7 @@ export enum NativeCurrencyName {
   MOONBEAM = 'GLMR',
   BNB = 'BNB',
   AVALANCHE = 'AVAX',
+  KAVA = 'KAVA',
 }
 
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
@@ -173,6 +181,11 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
+  [ChainId.KAVA]: [
+    'KAVA',
+    'KAVA',
+    '0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b',
+  ],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -192,6 +205,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.BNB]: NativeCurrencyName.BNB,
   [ChainId.AVALANCHE]: NativeCurrencyName.AVALANCHE,
   [ChainId.BASE]: NativeCurrencyName.ETHER,
+  [ChainId.KAVA]: NativeCurrencyName.KAVA,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -230,6 +244,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.BASE;
     case 84531:
       return ChainName.BASE_GOERLI;
+    case 2222:
+      return ChainName.KAVA;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -269,6 +285,8 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_AVALANCHE!;
     case ChainId.BASE:
       return process.env.JSON_RPC_PROVIDER_BASE!;
+    case ChainId.KAVA:
+      return process.env.JSON_RPC_PROVIDER_KAVA!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -553,6 +571,30 @@ class AvalancheNativeCurrency extends NativeCurrency {
   }
 }
 
+function isKava(chainId: number): chainId is ChainId.KAVA {
+  return chainId === ChainId.KAVA;
+}
+
+class KavaNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isKava(this.chainId)) throw new Error('Not kava');
+    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    if (nativeCurrency) {
+      return nativeCurrency;
+    }
+    throw new Error(`Does not support this chain ${this.chainId}`);
+  }
+
+  public constructor(chainId: number) {
+    if (!isKava(chainId)) throw new Error('Not kava');
+    super(chainId, 18, 'KAVA', 'Kava');
+  }
+}
+
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
     if (this.chainId in WRAPPED_NATIVE_CURRENCY) {
@@ -590,6 +632,8 @@ export function nativeOnChain(chainId: number): NativeCurrency {
     cachedNativeCurrency[chainId] = new BnbNativeCurrency(chainId);
   } else if (isAvax(chainId)) {
     cachedNativeCurrency[chainId] = new AvalancheNativeCurrency(chainId);
+  } else if (isKava(chainId)) {
+    cachedNativeCurrency[chainId] = new KavaNativeCurrency(chainId);
   } else {
     cachedNativeCurrency[chainId] = ExtendedEther.onChain(chainId);
   }
