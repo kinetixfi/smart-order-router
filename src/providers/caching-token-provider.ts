@@ -5,6 +5,9 @@ import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
 
 import { ICache } from './cache';
 import {
+  axlETH_KAVA,
+  axlUSDC_KAVA,
+  axlWBTC_KAVA,
   BTC_BNB,
   BUSD_BNB,
   CELO,
@@ -56,7 +59,7 @@ export const CACHE_SEED_TOKENS: {
   [chainId in ChainId]?: { [symbol: string]: Token };
 } = {
   [ChainId.MAINNET]: {
-    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,
+    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET],
     USDC: USDC_MAINNET,
     USDT: USDT_MAINNET,
     WBTC: WBTC_MAINNET,
@@ -143,6 +146,12 @@ export const CACHE_SEED_TOKENS: {
   [ChainId.BASE]: {
     USDC: USDC_BASE,
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.BASE],
+  },
+  [ChainId.KAVA]: {
+    WKAVA: WRAPPED_NATIVE_CURRENCY[ChainId.KAVA],
+    USDC: axlUSDC_KAVA,
+    WBTC: axlWBTC_KAVA,
+    ETH: axlETH_KAVA,
   },
   // Currently we do not have providers for Moonbeam mainnet or Gnosis testnet
 };
