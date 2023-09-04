@@ -66,10 +66,8 @@ import {
 } from '../../providers/v2/pool-provider';
 import {
   ArbitrumGasData,
-  ArbitrumGasDataProvider,
   IL2GasDataProvider,
   OptimismGasData,
-  OptimismGasDataProvider,
 } from '../../providers/v3/gas-data-provider';
 import {
   IV3PoolProvider,
@@ -369,8 +367,8 @@ export type AlphaRouterConfig = {
 
 export class AlphaRouter
   implements
-    IRouter<AlphaRouterConfig>,
-    ISwapToRatio<AlphaRouterConfig, SwapAndAddConfig>
+  IRouter<AlphaRouterConfig>,
+  ISwapToRatio<AlphaRouterConfig, SwapAndAddConfig>
 {
   protected chainId: ChainId;
   protected provider: BaseProvider;
@@ -415,9 +413,7 @@ export class AlphaRouter
     v2GasModelFactory,
     mixedRouteGasModelFactory,
     swapRouterProvider,
-    optimismGasDataProvider,
     tokenValidatorProvider,
-    arbitrumGasDataProvider,
     simulator,
     routeCachingProvider,
   }: AlphaRouterParams) {
@@ -440,126 +436,6 @@ export class AlphaRouter
       this.onChainQuoteProvider = onChainQuoteProvider;
     } else {
       switch (chainId) {
-        case ChainId.OPTIMISM:
-        case ChainId.OPTIMISM_GOERLI:
-          this.onChainQuoteProvider = new OnChainQuoteProvider(
-            chainId,
-            provider,
-            this.multicall2Provider,
-            {
-              retries: 2,
-              minTimeout: 100,
-              maxTimeout: 1000,
-            },
-            {
-              multicallChunk: 110,
-              gasLimitPerCall: 1_200_000,
-              quoteMinSuccessRate: 0.1,
-            },
-            {
-              gasLimitOverride: 3_000_000,
-              multicallChunk: 45,
-            },
-            {
-              gasLimitOverride: 3_000_000,
-              multicallChunk: 45,
-            },
-            {
-              baseBlockOffset: -10,
-              rollback: {
-                enabled: true,
-                attemptsBeforeRollback: 1,
-                rollbackBlockOffset: -10,
-              },
-            }
-          );
-          break;
-        case ChainId.BASE:
-        case ChainId.BASE_GOERLI:
-          this.onChainQuoteProvider = new OnChainQuoteProvider(
-            chainId,
-            provider,
-            this.multicall2Provider,
-            {
-              retries: 2,
-              minTimeout: 100,
-              maxTimeout: 1000,
-            },
-            {
-              multicallChunk: 80,
-              gasLimitPerCall: 1_200_000,
-              quoteMinSuccessRate: 0.1,
-            },
-            {
-              gasLimitOverride: 3_000_000,
-              multicallChunk: 45,
-            },
-            {
-              gasLimitOverride: 3_000_000,
-              multicallChunk: 45,
-            },
-            {
-              baseBlockOffset: -10,
-              rollback: {
-                enabled: true,
-                attemptsBeforeRollback: 1,
-                rollbackBlockOffset: -10,
-              },
-            }
-          );
-          break;
-        case ChainId.ARBITRUM_ONE:
-        case ChainId.ARBITRUM_GOERLI:
-          this.onChainQuoteProvider = new OnChainQuoteProvider(
-            chainId,
-            provider,
-            this.multicall2Provider,
-            {
-              retries: 2,
-              minTimeout: 100,
-              maxTimeout: 1000,
-            },
-            {
-              multicallChunk: 10,
-              gasLimitPerCall: 12_000_000,
-              quoteMinSuccessRate: 0.1,
-            },
-            {
-              gasLimitOverride: 30_000_000,
-              multicallChunk: 6,
-            },
-            {
-              gasLimitOverride: 30_000_000,
-              multicallChunk: 6,
-            }
-          );
-          break;
-        case ChainId.CELO:
-        case ChainId.CELO_ALFAJORES:
-          this.onChainQuoteProvider = new OnChainQuoteProvider(
-            chainId,
-            provider,
-            this.multicall2Provider,
-            {
-              retries: 2,
-              minTimeout: 100,
-              maxTimeout: 1000,
-            },
-            {
-              multicallChunk: 10,
-              gasLimitPerCall: 5_000_000,
-              quoteMinSuccessRate: 0.1,
-            },
-            {
-              gasLimitOverride: 5_000_000,
-              multicallChunk: 5,
-            },
-            {
-              gasLimitOverride: 6_250_000,
-              multicallChunk: 4,
-            }
-          );
-          break;
         default:
           this.onChainQuoteProvider = new OnChainQuoteProvider(
             chainId,
@@ -686,22 +562,9 @@ export class AlphaRouter
       swapRouterProvider ??
       new SwapRouterProvider(this.multicall2Provider, this.chainId);
 
-    if (chainId === ChainId.OPTIMISM || chainId === ChainId.BASE) {
-      this.l2GasDataProvider =
-        optimismGasDataProvider ??
-        new OptimismGasDataProvider(chainId, this.multicall2Provider);
-    }
-    if (
-      chainId === ChainId.ARBITRUM_ONE ||
-      chainId === ChainId.ARBITRUM_GOERLI
-    ) {
-      this.l2GasDataProvider =
-        arbitrumGasDataProvider ??
-        new ArbitrumGasDataProvider(chainId, this.provider);
-    }
     if (tokenValidatorProvider) {
       this.tokenValidatorProvider = tokenValidatorProvider;
-    } else if (this.chainId === ChainId.MAINNET) {
+    } else if (this.chainId === ChainId.KAVA) {
       this.tokenValidatorProvider = new TokenValidatorProvider(
         this.chainId,
         this.multicall2Provider,
@@ -1472,9 +1335,7 @@ export class AlphaRouter
     const shouldQueryMixedProtocol =
       protocols.includes(Protocol.MIXED) ||
       (noProtocolsSpecified && v2SupportedInChain);
-    const mixedProtocolAllowed =
-      [ChainId.MAINNET, ChainId.GOERLI].includes(this.chainId) &&
-      tradeType === TradeType.EXACT_INPUT;
+    const mixedProtocolAllowed = false;
 
     const quotePromises: Promise<GetQuotesResult>[] = [];
 
@@ -1632,17 +1493,17 @@ export class AlphaRouter
     const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
     const nativeQuoteTokenV3PoolPromise = !quoteToken.equals(nativeCurrency)
       ? getHighestLiquidityV3NativePool(
-          quoteToken,
-          this.v3PoolProvider,
-          providerConfig
-        )
+        quoteToken,
+        this.v3PoolProvider,
+        providerConfig
+      )
       : Promise.resolve(null);
     const nativeAmountTokenV3PoolPromise = !amountToken.equals(nativeCurrency)
       ? getHighestLiquidityV3NativePool(
-          amountToken,
-          this.v3PoolProvider,
-          providerConfig
-        )
+        amountToken,
+        this.v3PoolProvider,
+        providerConfig
+      )
       : Promise.resolve(null);
 
     const [usdPool, nativeQuoteTokenV3Pool, nativeAmountTokenV3Pool] =

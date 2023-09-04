@@ -60,81 +60,8 @@ export function constructSameAddressMap<T extends string>(
 }
 
 export const WETH9: {
-  [chainId in Exclude<
-    ChainId,
-    | ChainId.POLYGON
-    | ChainId.POLYGON_MUMBAI
-    | ChainId.CELO
-    | ChainId.CELO_ALFAJORES
-    | ChainId.GNOSIS
-    | ChainId.MOONBEAM
-    | ChainId.BNB
-    | ChainId.AVALANCHE
-  >]: Token;
+  [chainId in Exclude<ChainId, ChainId.KAVA>]: Token;
 } = {
-  [ChainId.MAINNET]: new Token(
-    ChainId.MAINNET,
-    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.GOERLI]: new Token(
-    ChainId.GOERLI,
-    '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.SEPOLIA]: new Token(
-    ChainId.SEPOLIA,
-    '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.OPTIMISM]: new Token(
-    ChainId.OPTIMISM,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.OPTIMISM_GOERLI]: new Token(
-    ChainId.OPTIMISM_GOERLI,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.ARBITRUM_ONE]: new Token(
-    ChainId.ARBITRUM_ONE,
-    '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.ARBITRUM_GOERLI]: new Token(
-    ChainId.ARBITRUM_GOERLI,
-    '0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.BASE_GOERLI]: new Token(
-    ChainId.BASE_GOERLI,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.BASE]: new Token(
-    ChainId.BASE,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
   [ChainId.KAVA]: new Token(
     ChainId.KAVA,
     '0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b',

@@ -268,28 +268,13 @@ export async function calculateGasUsed(
   l2GasData?: ArbitrumGasData | OptimismGasData,
   providerConfig?: ProviderConfig
 ) {
+  if (!l2GasData) {
+    l2GasData = undefined;
+  }
   const quoteToken = route.quote.currency.wrapped;
   const gasPriceWei = route.gasPriceWei;
   // calculate L2 to L1 security fee if relevant
-  let l2toL1FeeInWei = BigNumber.from(0);
-  if ([ChainId.ARBITRUM_ONE, ChainId.ARBITRUM_GOERLI].includes(chainId)) {
-    l2toL1FeeInWei = calculateArbitrumToL1FeeFromCalldata(
-      route.methodParameters!.calldata,
-      l2GasData as ArbitrumGasData
-    )[1];
-  } else if (
-    [
-      ChainId.OPTIMISM,
-      ChainId.OPTIMISM_GOERLI,
-      ChainId.BASE,
-      ChainId.BASE_GOERLI,
-    ].includes(chainId)
-  ) {
-    l2toL1FeeInWei = calculateOptimismToL1FeeFromCalldata(
-      route.methodParameters!.calldata,
-      l2GasData as OptimismGasData
-    )[1];
-  }
+  const l2toL1FeeInWei = BigNumber.from(0);
 
   // add l2 to l1 fee and wrap fee to native currency
   const gasCostInWei = gasPriceWei.mul(simulatedGasUsed).add(l2toL1FeeInWei);
@@ -461,10 +446,10 @@ export function initSwapRouteFromExisting(
     blockNumber: BigNumber.from(swapRoute.blockNumber),
     methodParameters: swapRoute.methodParameters
       ? ({
-          calldata: swapRoute.methodParameters.calldata,
-          value: swapRoute.methodParameters.value,
-          to: swapRoute.methodParameters.to,
-        } as MethodParameters)
+        calldata: swapRoute.methodParameters.calldata,
+        value: swapRoute.methodParameters.value,
+        to: swapRoute.methodParameters.to,
+      } as MethodParameters)
       : undefined,
     simulationStatus: swapRoute.simulationStatus,
   };

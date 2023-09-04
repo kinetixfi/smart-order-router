@@ -8,10 +8,7 @@ import { ICache } from './cache';
 import { IMulticallProvider } from './multicall-provider';
 import { ProviderConfig } from './provider';
 
-const DEFAULT_ALLOWLIST = new Set<string>([
-  // RYOSHI. Does not allow transfers between contracts so fails validation.
-  '0x777E2ae845272a2F540ebf6a3D03734A5a8f618e'.toLowerCase(),
-]);
+const DEFAULT_ALLOWLIST = new Set<string>([]);
 
 export enum TokenValidationResult {
   UNKN = 0,
@@ -23,7 +20,7 @@ export interface TokenValidationResults {
   getValidationByToken(token: Token): TokenValidationResult | undefined;
 }
 
-const TOKEN_VALIDATOR_ADDRESS = '0xb5ee1690b7dcc7859771148d0889be838fe108e0';
+const TOKEN_VALIDATOR_ADDRESS = '0x3C917E2f02D5340EEa0A7BAD106Df0f36A9d5A21';
 const AMOUNT_TO_FLASH_BORROW = '1000';
 const GAS_LIMIT_PER_VALIDATE = 1_000_000;
 
@@ -95,8 +92,7 @@ export class TokenValidatorProvider implements ITokenValidatorProvider {
     }
 
     log.info(
-      `Got token validation results for ${
-        addressesRaw.length - addresses.length
+      `Got token validation results for ${addressesRaw.length - addresses.length
       } tokens from cache. Getting ${addresses.length} on-chain.`
     );
 

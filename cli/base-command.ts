@@ -101,7 +101,7 @@ export abstract class BaseCommand extends Command {
     chainId: flags.integer({
       char: 'c',
       required: false,
-      default: ChainId.MAINNET,
+      default: ChainId.KAVA,
       options: CHAIN_IDS_LIST,
     }),
     tokenListURI: flags.string({
@@ -128,8 +128,8 @@ export abstract class BaseCommand extends Command {
     return this._log
       ? this._log
       : bunyan.createLogger({
-          name: 'Default Logger',
-        });
+        name: 'Default Logger',
+      });
   }
 
   get router() {
@@ -199,19 +199,19 @@ export abstract class BaseCommand extends Command {
       streams: debugJSON
         ? undefined
         : [
-            {
-              level: logLevel,
-              type: 'stream',
-              stream: bunyanDebugStream({
-                basepath: __dirname,
-                forceColor: false,
-                showDate: false,
-                showPid: false,
-                showLoggerName: false,
-                showLevel: !!debug,
-              }),
-            },
-          ],
+          {
+            level: logLevel,
+            type: 'stream',
+            stream: bunyanDebugStream({
+              basepath: __dirname,
+              forceColor: false,
+              showDate: false,
+              showPid: false,
+              showLoggerName: false,
+              showLevel: !!debug,
+            }),
+          },
+        ],
     });
 
     if (debug || debugJSON) {
@@ -295,7 +295,7 @@ export abstract class BaseCommand extends Command {
         v2PoolProvider,
         v3PoolProvider,
         provider,
-        { [ChainId.ARBITRUM_ONE]: 1 }
+        { [ChainId.KAVA]: 2222 }
       );
 
       const ethEstimateGasSimulator = new EthEstimateGasSimulator(
@@ -325,7 +325,7 @@ export abstract class BaseCommand extends Command {
           ),
           gasPriceCache
         ),
-        simulator,
+        simulator
       });
 
       this._swapToRatioRouter = router;

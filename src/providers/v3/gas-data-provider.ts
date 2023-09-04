@@ -4,7 +4,7 @@ import { ChainId } from '@kinetix/sdk-core';
 
 import { GasDataArbitrum__factory } from '../../types/other/factories/GasDataArbitrum__factory';
 import { GasPriceOracle__factory } from '../../types/other/factories/GasPriceOracle__factory';
-import { ARB_GASINFO_ADDRESS, log, OVM_GASPRICE_ADDRESS } from '../../util';
+import { ARB_GASINFO_ADDRESS, log } from '../../util';
 import { IMulticallProvider } from '../multicall-provider';
 
 /**
@@ -36,12 +36,8 @@ export class OptimismGasDataProvider
   constructor(
     protected chainId: ChainId,
     protected multicall2Provider: IMulticallProvider,
-    gasPriceAddress?: string
   ) {
-    if (chainId !== ChainId.OPTIMISM && chainId !== ChainId.BASE) {
-      throw new Error('This data provider is used only on optimism networks.');
-    }
-    this.gasOracleAddress = gasPriceAddress ?? OVM_GASPRICE_ADDRESS;
+    throw new Error('This data provider is used only on optimism networks.');
   }
 
   /**

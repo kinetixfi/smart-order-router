@@ -45,26 +45,8 @@ export const printV2SubgraphPool = (s: V2SubgraphPool) =>
   `${s.token0.id}/${s.token1.id}`;
 
 const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
-  [ChainId.MAINNET]:
-    'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
-  [ChainId.OPTIMISM]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/optimism-post-regenesis',
-  [ChainId.ARBITRUM_ONE]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-minimal',
-  [ChainId.POLYGON]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
-  [ChainId.CELO]:
-    'https://api.thegraph.com/subgraphs/name/jesse-sawa/uniswap-celo',
-  [ChainId.GOERLI]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-gorli',
-  [ChainId.BNB]:
-    'https://api.thegraph.com/subgraphs/name/ilyamk/uniswap-v3---bnb-chain',
-  [ChainId.AVALANCHE]:
-    'https://api.thegraph.com/subgraphs/name/lynnshaoyu/uniswap-v3-avax',
-  [ChainId.BASE]:
-    'https://api.studio.thegraph.com/query/48211/uniswap-v3-base/version/latest',
   [ChainId.KAVA]:
-    'https://api.studio.thegraph.com/query/48211/uniswap-v3-base/version/latest',
+    'https://the-graph.kava.io/subgraphs/name/kinetixfi/v3-subgraph',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
